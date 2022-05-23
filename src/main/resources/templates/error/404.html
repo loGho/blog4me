@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>您所寻找的资源不存在</title>
+</head>
+<body>
+<div th:replace="_fragments :: header"></div>
+<br>
+<br>
+<br>
+
+<div class="m-container-small m-padded-tb-massive">
+    <div class="ui error message m-padded-tb-huge" >
+        <div class="ui contianer">
+            <h2>404</h2>
+            <p>对不起，你访问的资源不存在</p>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<div th:replace="_fragments :: footer"></div>
+
+</body>
+<div th:replace="_fragments :: script"></div>
+<script>
+    $(".tag").hover(function () {
+        $(this).addClass("animate__animated animate__heartBeat");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__heartBeat");
+    });
+    $("a").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+    //为了配合semantic ui 只能这样适应手机 无法！important
+    $(document).ready(function(){
+        if (screen.width<768) {
+            $("#responsive_screen").removeAttr("style");
+            $("#responsive_screen2").removeAttr("style");
+            $("#responsive_screen3").removeAttr("style");
+        }
+    });
+</script>
+
+</html>

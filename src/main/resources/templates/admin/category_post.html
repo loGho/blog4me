@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+  <title>添加分类</title>
+</head>
+
+<body>
+<div th:replace="admin/admin_fragments :: admin-header"></div>
+<br><br><br><br><br><br><br>
+<div  class="m-container m-padded-tb-big">
+
+  <div class="ui container stacked">
+    <form  action="#" th:action="${category==null}?@{/admin/category/save}:@{/admin/category/save/{id}(id=${category.getCategoryId()})}" method="post" class="ui form">
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui teal basic label" >分类名称</label>
+          <input type="text" name="categoryName" class="required" placeholder="请输入标签名称" th:placeholder="${category==null}?'请输入新的标签名称(最大20个字符)':'原始标签: '+${category.getCategoryName()}">
+        </div>
+      </div>
+
+
+
+
+
+      <div class="ui right aligned container" >
+
+          <button type="button" class="ui button" onclick="window.history.go(-1)" style="margin-top: 50px">返回</button>
+          <button type="button" id="save-btn1" class="ui secondary submit button">提交</button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+<div th:replace="admin/admin_fragments :: admin-footer"></div>
+<div th:replace="admin/admin_fragments :: admin-script"></div>
+<script>
+  $(".tag").hover(function () {
+    $(this).addClass("animate__animated animate__heartBeat");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__heartBeat");
+  });
+  $("a").hover(function () {
+    $(this).addClass("animate__animated animate__headShake");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__headShake");
+  });
+  $('.ui.form').form({
+    fields : {
+      title : {
+        identifier: 'categoryName',
+        rules: [
+          {
+            type : 'maxLength[20]',
+            prompt: '标签太长了！！！'
+          },
+          {
+            type : 'empty',
+            prompt: '请输入标签名'
+          },
+        ]
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

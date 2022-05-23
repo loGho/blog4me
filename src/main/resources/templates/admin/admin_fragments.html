@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!--<nav th:fragment="admin-header" class="ui  inverted  segment attached m-shadow-small">-->
+<nav th:fragment="admin-header" class="ui  inverted middle aligned  centered grid segment attached m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h1 class="ui pink inverted header item " style="margin-left: -100px">
+                <span class="animate__animated huge animate__backInLeft" style="font-size: 40px">Blog</span><span class="ui header medium inverted animate__animated animate__backInDown orange ">4</span><span class="ui small header teal animate__animated animate__backInDown">Me <span class="ui small header black inverted animate__animated animate__backInRight">ADMIN</span></span>
+            </h1>
+            <a href="/" th:href="@{/admin/blog/list}" class="inverted medium item m-item m-mobile-hide"><i class="blogger  b inverted icon"></i>博客管理</a>
+            <a href="#" th:href="@{/admin/category/list}" class="item inverted m-item m-mobile-hide"><i class="tag icon grey inverted"></i>标签管理</a>
+            <a href="/"  class="inverted medium item m-item m-mobile-hide"><i class="user icon inverted"></i>用户管理</a>
+
+
+            <a href="#" class="item inverted m-item m-mobile-hide"><i class="info inverted icon"></i>关于我</a>
+            <a href="#" th:href="@{/admin/blog/add}" class="item inverted m-item m-mobile-hide right"><i class="edit outline orange big icon"></i><span style="font-size: 20px;color: lightskyblue">写博客</span></a>
+            <div class="right m-item m-mobile-hide menu" style="margin-right: -100px;margin-left: 0 !important;">
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image"  th:src="${session.logined_user.getUserAvatar()}">
+                        <span th:text="${session.logined_user.getNickname()}" >logho</span>
+                        <!--           <span >logho</span>-->
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a th:href="@{/admin/logout}"  class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <a id="sidebar" href="#" class="ui black icon m-right-top button m-mobile-show">
+        <i class="sidebar icon "></i>
+    </a>
+
+</nav>
+
+<div th:fragment="admin-footer" class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui stackable inverted divided grid">
+            <div class="four wide  column">
+                <h2 class="ui inverted header">本站流量统计</h2>
+                <div class="ui  three inverted statistics">
+                    <div class="ui red inverted huge statistic"  style="min-width: 38%!important;">
+                        <div class="value">
+                            2204
+                        </div>
+                        <div class="label  ">浏览 </div>
+                    </div>
+                    <div class="ui large statistic orange inverted"  style="min-width: 38%!important;">
+                        <div class="value brown">
+                            30
+                        </div>
+                        <div class="label">&nbsp;&nbsp;&nbsp;博客 </div>
+                    </div>
+                    <div class="ui blue inverted large statistic"  style="min-width: 38%!important;">
+                        <div class="value">
+                            20
+                        </div>
+                        <div class="label">
+                            支持
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h2 class="ui inverted header">联系我</h2>
+                <br>
+                <div class="ui inverted link list m-text ">
+
+                    <a class="item  inverted">QQ: 1952844359</a>
+                    <a class="item">Email: gwylol11@gmail.com</a>
+                    <a class="item ">Email: gwylol11@gmail.com</a>
+                    <a class="item ">Email: gwylol11@gmail.com</a>
+
+                </div>
+            </div>
+            <div class="eight wide column">
+                <h2 class="ui inverted header">博客简介</h2>
+                <p class="m-text-lined m-text-middle m-text-spaced inverted" style="text-align: left;text-indent: 2em">
+                    这是<span title="logho">我</span>的个人博客，打算用来分享一些与Java后端相关技术、算法方面、一些leetcode解题思路以及对一些技术的个人思考体会总结
+                    方面相关的Blog。同时也用来记录本人在学习实践过程中遇到的问题和相关的解决方案和一些开发项目的思路总结和日志记录,甚至是个人微不足道的哲思也会记录其中。
+                </p>
+                <h3 class="ui teal  inverted header item">希望能有所思考，有所收获，有所进步。</h3>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <div class="ui horizontal inverted small divided link list">
+            <p> Copyright &copy; All rights reserved by <span class="ui item header purple inverted">logho</span></p>
+
+
+        </div>
+    </div>
+</div>
+
+<div th:fragment="admin-script">
+    <script type="text/javascript" src="../static/js/jquery_3.6.0.js" th:src="@{/js/jquery_3.6.0.js}"></script>
+    <script src="/" th:src="@{/semantic-ui/semantic.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/scrollTo/jquery.scrollTo.min.js}" src="../static/lib/scrollTo/jquery.scrollTo.min.js"></script>
+    <script src="../static/lib/highlight/highlight.pack.js" th:src="@{/lib/highlight/highlight.pack.js}"
+            type="text/javascript"></script>
+    <script type="text/javascript" th:src="@{/lib/tocbot/tocbot.js}" src="../static/lib/tocbot/tocbot.js"></script>
+    <script type="text/javascript" th:src="@{/lib/qrcode/qrcode.min.js}" src="../static/lib/qrcode/qrcode.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"
+            src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script>
+        $("#sidebar").click(function (){
+            $(".m-item").toggleClass("m-mobile-hide");
+        });
+        $('.ui.dropdown')
+            .dropdown()
+        ;
+
+    </script>
+</div>
+
+</body>
+</html>

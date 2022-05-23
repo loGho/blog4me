@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+    <title>博客分类</title>
+</head>
+
+
+<body>
+<div th:replace="_fragments :: header"></div>
+<div class="ui container">
+    <div class="ui stackable grid ">
+
+        <div class="ui  top attached  segment " style="margin-top: 48px!important;">
+            <!-- 垂直居中middle aligned-->
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui teal header">分类</h3>
+                </div>
+                <div class="column right aligned">
+                    共 <h3 class="ui orange header m-inline-block" th:text="${categoryBlogNum.size()}">3</h3>个
+                </div>
+            </div>
+
+        </div>
+<!--        <div class="ui attached  segment  m-padded-lr " >-->
+<!--            <div class="ui labeled button m-margin-tb-tiny " th:classappend="${tag.id==activeTagId} ? 'pink'"  th:each="tag : ${tags}" >-->
+<!--                <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" th:classappend="${tag.id==activeTagId} ? 'pink'"  class="ui basic  button" th:text="${tag.name}">弹吉他</a>-->
+<!--                <div class="ui basic  left pointing label" th:classappend="${tag.id==activeTagId} ? 'pink'"  th:text="${#arrays.length(tag.blogs)}">19</div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+        <div class="ui attached  segment  m-padded-lr " >
+
+            <div class="ui compact menu" th:each="categoryBlog : ${categoryBlogNum}" style="margin-left: 20px;margin-top: 13px">
+                <a class="item basic large" th:href="@{/category/blogs/{categoryId}(categoryId=${categoryBlog.getCategoryId()})}">
+                    <i class="icon basic blue folder"></i>
+                    <span th:text="${categoryBlog.getCategoryName()}">logho</span>
+                    <div class="floating ui circular basic inverted red label" th:text="${categoryBlog.getBlogNum()}">22</div>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div class="ui  text main" style="margin-top: 80px !important;" >
+
+            <div class="ui  segment blog_list" th:each="blog:${categoryBlog}" style="background: transparent">
+                <h2 class="ui header"><a th:href="@{/blog/{blogId}(blogId=${blog.getBlogId()})}" th:text="${blog.getBlogTitle()}">Springboot自动装配总结</a></h2><br>
+                <img class="" th:src="${blog.getBlogShowImg()}"/><br>
+                <p style="line-height: 1.8" > 通常我们在Service层中，我们需要调用UserDao中的方法去实现我们的业务逻辑。
+                    正因为如此我们两个类/接口(UserService和UserDao)之间就存在了组合关系(Composition)。我们通常直接在Service层
+                    将UserDao作为UserService层的成员变量，然后new出UserDao的实现类，
+                    并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展，UserDao的实现类，
+                    并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展，UserDao的实现类，
+                    并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展， </p>
+                <form th:action="@{/blog/{showTitle}(showTitle=${blog.getBlogShowTitle()})}" method="post">
+                    <input style="display: none" name="blogId" th:value="${blog.getBlogId()}">
+                    <button type="submit" class="ui label tag  olive m-right  medium " >博客详情 &nbsp;<i
+                            class="chevron circle right icon"></i></button>
+                </form>
+
+            </div>
+
+
+            <div class="ui section divider"></div>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="pagination" class="ui  center aligned container borderless ">
+    <div class="ui pagination menu borderless">
+        <a class="active item">
+            <i class="icon angle left"></i>
+        </a>
+        <div class="disabled item">
+            1
+        </div>
+        <a class="item">
+            2
+        </a>
+        <a class="item">
+            3
+        </a>
+        <a class="item">
+            <i class="icon angle right"></i>
+        </a>
+    </div>
+</div>
+<div th:replace="_fragments :: footer"></div>
+
+</body>
+
+<div th:replace="_fragments :: script"></div>
+<script>
+    $(".tag").hover(function () {
+        $(this).addClass("animate__animated animate__heartBeat");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__heartBeat");
+    });
+    $("a").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+</script>
+
+</html>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logho.dao.admin.AdminBlogMapper">
+    <select id="getBlogCount" resultType="int">
+        select count(1) from
+        (select count(blog.blog_id) from blog left join blog_category bc on blog.blog_id = bc.blog_id
+        left join category c on bc.category_id = c.category_id
+        <where>
+            <if test="blogTitle != null">
+                blog_title like concat('',#{blogTitle},'%')
+            </if>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+        group by blog.blog_id) as b
+
+
+    </select>
+
+    <select id="getBlogCount1" resultType="int">
+        select count(1) from
+        (select count(blog.blog_id) from blog left join blog_category bc
+        on blog.blog_id =bc.blog_id
+        <where>
+            <if test="blogTitle != null">
+                blog_title like concat('',#{blogTitle},'%')
+            </if>
+
+        </where>
+        group by blog.blog_id) b
+        <where>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+
+
+    </select>
+    <select id="getBlogListTest" resultMap="BlogMap">
+        select blog.blog_id,blog_title,blog_update_time,
+        blog_publish_status,blog_type,c.category_name
+        from blog
+        left join blog_category bc on blog.blog_id = bc.blog_id
+        left join category c on bc.category_id = c.category_id
+        <where>
+            <if test="blogTitle != null">
+                blog_title like concat('',#{blogTitle},'%')
+            </if>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+        order by blog.blog_id
+    </select>
+    <resultMap id="BlogMap" type="Blog">
+        <result property="blogId" column="blog_id"/>
+        <result property="blogTitle" column="blog_title"/>
+        <result property="blogContent" column="blog_content"/>
+        <result property="blogShowImg" column="blog_show_img"/>
+        <result property="blogDescription" column="blog_description"/>
+        <result property="blogUpdateTime" column="blog_update_time"/>
+        <result property="blogType" column="blog_type"/>
+        <result property="blogPublishStatus" column="blog_publish_status"/>
+        <collection property="categories" ofType="category" javaType="List">
+            <result property="categoryName" column="category_name"/>
+            <result property="categoryId" column="category_id"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="getBlogById" resultMap="BlogMap">
+        select blog_title,
+               blog_content,
+               blog_show_img,
+               blog_type,
+               blog_description,
+               c.category_id
+        from blog
+                 left join blog_category bc on blog.blog_id = bc.blog_id
+                 left join category c on bc.category_id = c.category_id
+        where blog.blog_id = #{blogId}
+    </select>
+
+    <update id="updateBlogById">
+        update blog
+        set blog_title          =#{blog.blogTitle},
+            blog_show_img       = #{blog.blogShowImg},
+            blog_content        = #{blog.blogContent},
+            blog_description    = #{blog.blogDescription},
+            blog_publish_status = #{blog.blogPublishStatus},
+            enable_comments     = #{blog.enableComments},
+            blog_update_time    = #{blog.blogUpdateTime},
+            blog_type           = #{blog.blogType},
+            user_id             = #{blog.user.userId}
+        where blog_id = #{blogId}
+    </update>
+
+    <insert id="addBlog" useGeneratedKeys="true" keyProperty="blog.blogId">
+        insert into blog(blog_title,
+                         blog_show_img, blog_content,
+                         blog_description, blog_publish_status,
+                         enable_comments, blog_update_time, user_id)
+        values (#{blog.blogTitle},
+                #{blog.blogShowImg}, #{blog.blogContent},
+                #{blog.blogDescription}, #{blog.blogPublishStatus},
+                #{blog.enableComments}, #{blog.blogUpdateTime},
+                #{userId})
+    </insert>
+    <insert id="addBlogCategories">
+        insert into blog_category
+        values (default, #{categoryId}, #{blogId})
+    </insert>
+    <delete id="removeBlogById">
+        delete
+        from blog
+        where blog_id = #{blogId}
+    </delete>
+    <select id="getBlogList_use" resultMap="BlogMap">
+        select b.blog_id, blog_title, blog_update_time, blog_publish_status, blog_type, c.category_name
+        from (select blog_id, blog_title, blog_update_time, blog_publish_status, blog_type
+        from blog
+        <where>
+            <if test="blogTitle != null">
+                blog_title like concat('',#{blogTitle},'%')
+            </if>
+
+        </where>
+        limit #{startIndex},#{pageSize}) b
+        left join blog_category bc on b.blog_id = bc.blog_id
+        left join category c on bc.category_id = c.category_id
+        <where>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+        order by b.blog_id
+
+    </select>
+    <select id="getBlogList" resultMap="BlogMap">
+        select b.blog_id, blog_title, blog_update_time, blog_publish_status, blog_type, c.category_name
+        from (select blog_id, blog_title, blog_update_time, blog_publish_status, blog_type
+        from blog
+        <where>
+            <if test="blogTitle != null">
+                blog_title like concat('',#{blogTitle},'%')
+            </if>
+
+        </where>
+        <if test="not (blogTitle != null and categoryId != null)">
+            limit #{startIndex},#{pageSize}
+        </if>
+        )b
+        left join blog_category bc on b.blog_id = bc.blog_id
+        left join category c on bc.category_id = c.category_id
+        <where>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+        order by b.blog_id
+
+    </select>
+
+    <select id="getBlogListFinal" resultMap="BlogMapFinal">
+        select blog_id, blog_title, blog_update_time, blog_publish_status, blog_type
+        from blog
+        where blog_title like concat('', #{blogTitle}, '%') left join blog_category bc on b.blog_id = bc.blog_id
+        left join category c on bc.category_id = c.category_id
+        <where>
+            <if test="categoryId != null">
+                and bc.category_id = #{categoryId}
+            </if>
+        </where>
+        order by b.blog_id
+    </select>
+
+    <resultMap id="BlogMapFinal" type="Blog">
+        <result property="blogId" column="blog_id"/>
+        <result property="blogTitle" column="blog_title"/>
+        <result property="blogContent" column="blog_content"/>
+        <result property="blogShowImg" column="blog_show_img"/>
+        <result property="blogDescription" column="blog_description"/>
+        <result property="blogUpdateTime" column="blog_update_time"/>
+        <result property="blogType" column="blog_type"/>
+        <result property="blogPublishStatus" column="blog_publish_status"/>
+        <collection property="categories" ofType="category" javaType="List" select="getCategoryByBlogId"
+                    column="blog_id">
+            <result property="categoryId" column="category_id"/>
+            <result property="categoryName" column="category_name"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="getLastBlogList" resultType="BlogVO">
+        select blog_id,
+               blog_title,
+               blog_content,
+               blog_show_img,
+               blog_description,
+               blog_create_time,
+               blog_update_time,
+               username    as blog_author,
+               user_avatar as blog_avatar
+        from blog
+                 left join user u on blog.user_id = u.user_id
+        order by blog_update_time desc, blog_create_time desc
+        limit #{startPage},5
+    </select>
+
+
+
+</mapper>

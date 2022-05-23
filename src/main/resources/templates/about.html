@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+  <title>关于我</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+
+  }
+  body {
+    background-color: rgba(241,243,244,.7);
+  }
+  li {
+    list-style: none;
+  }
+  .hide {
+    display: block;
+  }
+  .m-text {
+    /*大小*/
+    font-size: 16px;
+    /*字间距*/
+    letter-spacing: 1px !important;
+    /*行间距*/
+    line-height: 1.8;
+
+    font-family: 楷体;
+  }
+
+
+
+  .my-content {
+    width: 90%;
+    margin: 30px auto;
+
+  }
+
+  .my-container {
+    width: 90%;
+
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .my-container .my-content_left {
+    float: left;
+    width: 35%;
+    height: 100%;
+  }
+  .my-content_left .saying {
+    width: 90%;
+    position: relative;
+    /*height: 100px;*/
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+  }
+
+
+  .my-content_left .saying .author {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+  .my-container .my-content_right {
+    float: right;
+    margin-top: 20px;
+    width: 60%;
+
+    text-align: center;
+  }
+  .my-content_right .main_info p{
+    text-indent: 2em;
+    margin: 20px auto;
+  }
+  .my-content_right .hobby ul{
+    border-left: 4px #00B5AD solid;
+    text-align: left!important;
+
+  }
+  .my-content_right .hobby p {
+    text-indent: 0 !important;
+    margin-left: 20px;
+  }
+  .my-content_right .skill ul{
+    border-left: 4px #00B5AD solid;
+    text-align: left!important;
+  }
+  .my-content_right .skill p {
+    text-indent: 0 !important;
+    margin-left: 20px;
+  }
+  .my-container .my-content_right p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    text-align: justify;
+    text-indent: 2em;
+  }
+
+  .my-container .my-content_right img {
+    width: 300px;
+    height: 290px;
+    border-radius: 5px;
+
+  }
+  .mood_my-container p {
+
+    margin-left: 20px;
+    font-family: 楷体;
+    font-size: 18px;
+
+  }
+  ._mCS_1 .mCSB_scrollTools .mCSB_dragger_bar{
+    width:11px;
+  }
+</style>
+
+<body>
+<div th:replace="_fragments :: header"></div>
+<div class="my-content ">
+  <div class="my-container">
+    <div class="my-content_left  animate__animated animate__slideInLeft">
+      <div class="saying m-text" >
+        <p>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;叔本华说，人生就是在痛苦和无聊这二者之间像钟摆一样摆来摆去,当你需要为生存而劳作时，
+          你是痛苦的；当你的基本需求满足之后，你会感到无聊。我们所追逐的短期目标、成就又或者梦想是有意义的吗？
+          名校是终点吗？ACM World Final是终点吗？Google优雅舒适的工作环境里和身为谷歌员工的逼格是终点吗？
+          无论是成绩突出的高中学霸，还是表现优异的大学生，在获得了满意的结果，进入人生的下一个阶段以后，还是会有很多感到迷茫。
+          像艘驶入无人深空的太空飞船那样迷失了方向。
+
+        </p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么我们究竟在追逐着什么，又因何而奋斗呢，目标达成之后就无所欲求了吗？人生的意义就在于短暂且热烈的追寻自己的阶段目标，但完成以后却收获迷茫吗？
+          或许从一开始我们就错了，不该过分执迷于一个成就、一个被预设为完美，得到之后却终究归于平淡的的title。</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          我想，人生本来没有意义，痛苦欢快不过是虚幻。
+          而创造，是生而为人的唯一救赎。</p>
+         <strong style="margin-left: 100px"> Stay hungry, stay foolish.</strong>
+      </div>
+
+
+    </div>
+    <div class="my-content_right  animate__animated animate__slideInRight ">
+      <img class = "animate__animated animate__heartBeat " src="./images/daiyu.jpg" alt="关于我">
+      <div class="main_info">
+        <p> </p>
+
+      </div>
+      <h2>吾尝跂而望矣，不如登高之博见也。</h2>
+
+      <div class="skill">
+        <h3 style="font-weight: 400"></h3>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或许思考人生的意思本就是无意义的，忙碌会让我们暂时忘掉这些看起来与当下无关，与现实脱离的所谓的思考人生意义的过程。或许忙碌能够暂时性的让我们脱离审视自己的烦恼。但一旦我们真正的收获了彻底的闲暇，
+          当我们觉得手头的事情做完了，并且不用所谓的娱乐活动来麻痹自己的时候，我们势必感到虚无，同时给我们带来更深层次的思考，或许此时我们会泛起几千年前古希腊哲学家的哲学三问：我是谁？我从哪里来？我到哪里去？
+        在Java中，每个Object都能够回答这个问题，<strong>"hashCode()->我是谁? Object()->我从哪里来? finalize()->我要到哪里去?"</strong> 那么一个Object的意义在哪里呢?一个dao层的Object的意义在于对数据库进行数据访问;一个service层的Object的意义在于利用dao层的Object来实现复杂的业务逻辑；
+          一个controller层的Object的意义在于处理请求，返回结果或路由控制。当它们这一切都做完，所面临的仅仅是被一次次的MinorGC，MajorGC回收！当他们被回收之后，这一个个Object又剩下了什么呢？仅仅是完成了一些用户的需求。或许这是最终Object的人生意义->奉献。
+        </p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但我们仔细想来，Object的人生意义终究是由我们(编程者)所赋予的，那么我们的人生意义又应该由谁去赋予，又怎样去实现呢？<strong>答案在我们心中。</strong></p>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+<div th:replace="_fragments :: footer"></div>
+
+</body>
+<div th:replace="_fragments :: script"></div>
+<script>
+
+  $(".tag").hover(function () {
+    $(this).addClass("animate__animated animate__heartBeat");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__heartBeat");
+  });
+  $("a").hover(function () {
+    $(this).addClass("animate__animated animate__headShake");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__headShake");
+  });
+  //为了配合semantic ui 只能这样适应手机 无法！important
+  $(document).ready(function(){
+    if (screen.width<768) {
+      $("#responsive_screen").removeAttr("style");
+      $("#responsive_screen2").removeAttr("style");
+      $("#responsive_screen3").removeAttr("style");
+    }
+  });
+</script>
+</html>

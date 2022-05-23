@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+  <title>博客分类管理</title>
+</head>
+
+<body>
+<div th:replace="admin/admin_fragments :: admin-header"></div>
+<div  class="m-container-small m-padded-tb-big">
+  <div class="ui container">
+
+    <div id="table-container">
+      <table  class="ui compact celled blue table">
+        <thead>
+        <tr>
+          <th></th>
+          <th>名称</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category,categoryStatus:${categoryList.getList()}" >
+          <td th:text="${categoryStatus.count}" class="ui header orange">1</td>
+          <td th:text="${category.getCategoryName()}">logho_for_test</td>
+          <td>
+            <a href="#" th:href="@{/admin/category/add/{id}(id=${category.getCategoryId()})}" class="ui  small teal basic button">编辑</a>
+            <a href="#" th:href="@{/admin/category/del/{id}(id=${category.getCategoryId()})}" class="ui small red basic button">删除</a>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <th colspan="7">
+            <div class="ui mini pagination menu  blue"  >
+              <div class="item"><a th:href="@{/admin/category/list}">首页</a></div>
+              <div class="item"><a th:href="@{/admin/category/list/{pagenum}(pagenum=${categoryList.isHasPreviousPage()}?${categoryList.getPrePage()}:1)}">上一页</a></div>
+              <div class="item"><a th:href="@{/admin/category/list/{pagenum}(pagenum=${categoryList.isHasNextPage()}?${categoryList.getNextPage()}:${categoryList.getPages()})}">下一页</a></div>
+              <div class="item"><a th:href="@{/admin/category/list/{pagenum}(pagenum=${categoryList.getPages()})}">尾页</a></div>
+            </div>
+            <a href="#" th:href="@{/admin/category/add}"  class="ui small m-right floated green button">新增</a>
+          </th>
+        </tr>
+        </tfoot>
+      </table>
+
+      <div class="ui segment m-inline-block">
+        <p >当前第<span th:text="${categoryList.getPageNum()}"></span>页，总<span th:text="${categoryList.getPages()}"></span>页，共<span th:text="${categoryList.getTotal()}" class="ui header violet"></span>条记录</p>
+      </div>
+<!--      <div th:if="${not #strings.isEmpty('${operation_status}')}">不空显示</div>-->
+<!--      <div th:if="${#strings.isEmpty('${operation_status}')}">空显示</div>-->
+<!--      提示框在有消息通知时显示-->
+<!--      <div th:text="${operation_status}"></div>-->
+<!--      <div th:text="${#strings.contains(${operation_status},'tion_status')}"></div>-->
+
+      <div id = "changecolor"th:if="${operation_status}!=null" class="ui success message">
+        <i class="close icon "></i>
+        <div class="header">提示：</div>
+        <p id ="promsg" th:text="${operation_status}">恭喜，操作成功！</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div th:replace="admin/admin_fragments :: admin-footer"></div>
+<div th:replace="admin/admin_fragments :: admin-script"></div>
+<script>
+  $(".tag").hover(function () {
+    $(this).addClass("animate__animated animate__heartBeat");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__heartBeat");
+  });
+  $("a").hover(function () {
+    $(this).addClass("animate__animated animate__headShake");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__headShake");
+  });
+  $('.message .close')
+          .on('click', function() {
+            $(this)
+                    .closest('.message')
+                    .transition('fade')
+            ;
+          });
+
+ $(document).ready(function (){
+    if ($('#promsg').text().indexOf("成功")!==-1) {
+      $('#changecolor').addClass("success").removeClass("negative");
+    }else {
+      $('#changecolor').addClass("negative").removeClass("success");
+    }
+  });
+
+
+</script>
+
+</body>
+</html>

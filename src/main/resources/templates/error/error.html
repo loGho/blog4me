@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+</head>
+<body>
+
+<h1>this is error page</h1>
+
+<div>
+    <div th:utext = "'&lt;!--'" th:remove="tag"></div>
+    <div th:utext = "'Fail request url : '+ ${requestUrl}" th:remove="tag"></div>
+    <div th:utext="'Exception message : ' + '${exception.message}' " th:remove="tag"></div>
+    <ul th:remove="tag">
+        <li th:each="stack: ${exception.stackTrace}" th:remove="tag">
+            <span th:utext="${stack}" th:remove="tag"></span>
+        </li>
+    </ul>
+    <div th:utext="'--&gt;'" th:remove="tag"></div>
+
+</div>
+
+</body>
+</html>

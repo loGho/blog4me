@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+    <title>博客管理</title>
+</head>
+
+<body>
+<div th:replace="admin/admin_fragments :: admin-header"></div>
+<div class="m-padded-tb-tiny m-margin-top-massive">
+    <!--    ui container响应式布局-->
+    <div class="ui container ">
+        <form action="#" th:action="@{/admin/blog/list}" method="post" class="ui raised segment form">
+            <div class="inline fields">
+                <div class="field">
+                    <input type="text" name="title" placeholder="标题" th:value="${lastQueryContent.getBlogTitle()}">
+                    <select class="ui search blue dropdown" name="categoryId" th:placeholder="按标签选择">
+                        <option value="   " class="ui brown " >按标签选择</option>
+                        <option th:value="${lastQueryContent.getCategoryId()}" selected
+                                th:text="${lastQueryContent.getCategoryName()}"></option>
+                        <option th:each="category :${categoryList}" th:text="${category.getCategoryName()}"
+                                th:value="${category.getCategoryId()}">State
+                        </option>
+                    </select>
+
+                </div>
+                <div class="field">
+                    <button type="submit" id="search-btn" class="ui small blue  button"><i class="search icon"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+        <table class="ui compact blue table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>标题</th>
+                <th>标签</th>
+                <th>状态</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="blog,blogstatus : ${blogList}">
+
+                <td th:text="${blogstatus.count}" class="ui header orange">1</td>
+                <td th:text="${blog.getBlogTitle()}">B+ tree底层以及索引详解</td>
+                <td>
+                    <div class="pink ui label secondary inverted" th:each="category:${blog.getCategories()}"
+                         th:text="${category.getCategoryName()}"></div>
+                </td>
+                <td th:text="${blog.getBlogPublishStatus()}?'已发布':'草稿'">发布</td>
+                <td th:text="${#dates.format(blog.getBlogUpdateTime(),'yyyy-MM-dd')} ">2021-5-02</td>
+                <td>
+                    <a href="#" th:href="@{/admin/blog/add/{id}(id=${blog.getBlogId()})}"
+                       class="ui small teal basic button">编辑</a>
+                    <a href="#" th:href="@{/admin/blog/del/{id}(id=${blog.getBlogId()})}"
+                       class="ui small red basic button">删除</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="16">
+                    <form action="" method="post" id="formWithInfo">
+                        <input type="text" class="hidden" name="title" th:value="${lastQueryContent.getBlogTitle()}"
+                               style="display: none">
+                        <input type="text" class="hidden" name="categoryId"
+                               th:value="${lastQueryContent.getCategoryId()}" style="display: none">
+                        <div class="ui  center aligned container">
+                            <div class="ui container center aligned blue">
+                                <button class="ui circular icon button" id="firstPage" th:href="@{/admin/blog/list}">
+                                    <i class="angle double violet left  icon"></i>
+                                </button>
+                                <button class="ui circular icon button" id="previousPage"
+                                        th:href="@{/admin/blog/list/{pagenum}(pagenum=${pageInfo.getCurNum()>1}?${pageInfo.getCurNum()-1}:1)}">
+                                    <i class="angle   green left  icon"></i>
+                                </button>
+
+                                <button class="ui circular  icon button" id="nextPage"
+                                        th:href="@{/admin/blog/list/{pagenum}(pagenum=${pageInfo.getCurNum()<pageInfo.getPageNumTotal()}?${pageInfo.getCurNum()+1}:${pageInfo.getPageNumTotal()})}">
+                                    <i class="angle green right icon"></i>
+                                </button>
+                                <button class="ui circular  icon button" id="lastPage"
+                                        th:href="@{/admin/blog/list/{pagenum}(pagenum=${pageInfo.getPageNumTotal()})}">
+                                    <i class="angle violet double right icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+
+        <div class="ui m-inline-block segment" style="float: right">
+
+            <span id="pageCount"
+                 th:if="${not ((not #strings.isEmpty(lastQueryContent.blogTitle)) && lastQueryContent.categoryId!=null)}">
+                共<span class="ui text header violet" th:text="${pageInfo.getCurNum()}"></span>页，
+            </span>
+            <!--      <div th:if="${not #strings.isEmpty('${operation_status}')}">不空显示</div>-->
+            <span>共<span
+                    class="ui header violet" th:text="${pageInfo.getRecordTotal()}"></span>条数据
+            </span>
+            <span id="curPage"
+                 th:if="${not ((not #strings.isEmpty(lastQueryContent.blogTitle)) && lastQueryContent.categoryId!=null)}">
+                ,共<span
+                    class="ui header violet" th:text="${pageInfo.getPageNumTotal()}"></span>页
+            </span>
+            </div>
+        <br><br><br>
+
+
+    </div>
+</div>
+
+<div th:replace="admin/admin_fragments :: admin-footer"></div>
+<div th:replace="admin/admin_fragments :: admin-script"></div>
+<script>
+    $(".tag").hover(function () {
+        $(this).addClass("animate__animated animate__heartBeat");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__heartBeat");
+    });
+    $("a").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+    $("#firstPage").click(function () {
+            $("#formWithInfo").attr('action', $("#firstPage").attr('href'));
+        }
+    );
+    $("#nextPage").click(function () {
+            $("#formWithInfo").attr('action', $("#nextPage").attr('href'));
+        }
+    );
+    $("#lastPage").click(function () {
+            $("#formWithInfo").attr('action', $("#lastPage").attr('href'));
+        }
+    );
+    $("#previousPage").click(function () {
+            $("#formWithInfo").attr('action', $("#previousPage").attr('href'));
+        }
+    );
+    $(".circular").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+
+
+</script>
+
+
+</body>
+</html>

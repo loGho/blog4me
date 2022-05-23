@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>Blog4Me</title>
+</head>
+
+<body>
+
+<div th:replace="_fragments :: header"></div>
+
+<!--  头部的提示div show lasted_blog_update_time   author_info  like_num -->
+<div class="ui container text segment center aligned  mobile "
+     style="max-width: 1200px!important;height: 61px!important;">
+<!--    <a class="ui teal image medium  label left m-mobile-hide">-->
+<!--        <img src="/images/profile/small/jenny.jpg" th:src="@{/images/user/profile/small/jenny.jpg}" alt="">-->
+<!--        最新blog更新时间-->
+<!--        <div class="detail">2021.5.3</div>-->
+<!--    </a>-->
+    <a class="ui teal  medium teal m-mobile-left">
+        Climb the highest mountain.
+
+    </a>
+<!--    <a class="ui teal image  medium label m-mobile-left">-->
+<!--        <img src="/images/profile/small/veronika.jpg" th:src="@{/images/user/profile/small/daiyu.ico}" alt="">-->
+<!--        作者-->
+<!--        <div class="detail">logho</div>-->
+<!--    </a>-->
+<!--    <div class="ui  medium labeled button m-right" tabindex="0">-->
+<!--        <div class="ui red button">-->
+<!--            <i class="heart icon"></i> Like-->
+<!--        </div>-->
+<!--        <a class="ui basic red left pointing label">-->
+<!--            1,048-->
+<!--        </a>-->
+<!--    </div>-->
+</div>
+
+<div class="m-padded-tb-large">
+    <div class="ui stackable grid typo typo-selection" >
+<!--        <div class="twelve wide column">-->
+            <div id = "responsive_screen" class="ui  container">
+                <a class="ui red ribbon massive label">最新发布</a>
+                <div class="ui  segment blog_list" th:each="blog:${lastBlogList}" style="background: transparent">
+                    <h2 class="ui header"><a th:href="@{/blog/{blogId}(blogId=${blog.getBlogId()})}" th:text="${blog.getBlogTitle()}">Springboot自动装配总结</a></h2><br>
+                    <img class="" th:src="${blog.getBlogShowImg()}"/><br>
+                    <p style="line-height: 1.8" th:text="${blog.getBlogContent().substring(1,250)}"> 通常我们在Service层中，我们需要调用UserDao中的方法去实现我们的业务逻辑。
+                        正因为如此我们两个类/接口(UserService和UserDao)之间就存在了组合关系(Composition)。我们通常直接在Service层
+                        将UserDao作为UserService层的成员变量，然后new出UserDao的实现类，
+                        并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展，UserDao的实现类，
+                        并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展，UserDao的实现类，
+                        并且去调用UserDao的方法。但这种方式扩展性不好，UserDao实现类写死在Service层代码中，若要进行扩展， </p>
+                    <form th:action="@{/blog/{showTitle}(showTitle=${blog.getBlogShowTitle()})}" method="post">
+                        <input style="display: none" name="blogId" th:value="${blog.getBlogId()}">
+                    <button type="submit" class="ui label tag  olive m-right  medium " >博客详情 &nbsp;<i
+                            class="chevron circle right icon"></i></button>
+                    </form>
+                    <div class="ui section divider"></div>
+
+                </div>
+
+                <br><br>
+            </div >
+
+<!--        </div>-->
+<!--        <div class="four wide column m-right">-->
+<!--            <div id = "responsive_screen2" class="row ui segment piled " style="margin-right: 100px!important; margin-top: 150px!important;">-->
+<!--                <h3 class="ui header attached info message top"><i class="icon book brown"></i>分类-->
+<!--                    <a class="ui m-right small ">more<i class="small ui angle double right icon"></i></a>-->
+<!--                </h3>-->
+<!--                <div class="ui segment  attached piled">-->
+<!--                    <div class="ui divided selection list">-->
+<!--                        <a class="item">-->
+<!--                            <div class="ui orange horizontal label big">SpringBoot</div>-->
+<!--                            <div class="ui  circular pink  basic label m-right ">20</div>-->
+
+<!--                        </a>-->
+<!--                        <a class="item">-->
+<!--                            <div class="ui purple horizontal big label">多线程</div>-->
+
+<!--                                <div class="ui  circular teal  basic label m-right ">12</div>-->
+
+<!--                        </a>-->
+<!--                        <a class="item">-->
+<!--                            <div class="ui red horizontal label big ">leetcode</div>-->
+<!--                            <div class="ui  circular blue  basic label m-right ">20</div>-->
+<!--                        </a>-->
+<!--                        <a class="item">-->
+<!--                            <div class="ui horizontal big  label">算法</div>-->
+<!--                            <div class="ui  circular teal  basic label m-right ">20</div>-->
+
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+<!--            <div id = "responsive_screen3" class="row ui segment piled " style="margin-right: 100px!important; margin-top: 150px!important;" >-->
+<!--                <h3 class="ui header attached info message top"><i class="tag brown icon"></i>标签-->
+<!--                    <a class="ui m-right small ">more<i class="small ui angle double right icon"></i></a>-->
+<!--                </h3>-->
+<!--                <div class="ui segment  attached piled">-->
+<!--                       <div>-->
+<!--                        <a class="m-margin-tb-tiny right pointing big ui teal basic label">SpringBoot</a>-->
+<!--                        <a class="m-margin-tb-tiny big ui left pointing  blue basic label">leetcode</a>-->
+<!--                        <a class="m-margin-tb-tiny big ui pointing orange basic label">多线程</a>-->
+<!--                        <a class="m-margin-tb-tiny big ui blue circular  basic label">web</a><a class="ui blue basic big  circular label">mybatis</a>-->
+<!--                        <a class="m-margin-tb-tiny big ui violet  left pointing basic pointing label">hashmap</a>-->
+<!--                        <a class="m-margin-tb-tiny big ui pointing blue basic label">docker</a>-->
+<!--                           <a class="m-margin-tb-tiny big ui orange  circular basic label">项目总结</a>-->
+<!--                           <a class="m-margin-tb-tiny big ui purple pointing   basic label">感悟</a>-->
+<!--                       </div>-->
+<!--                    -->
+<!--                </div>-->
+
+<!--            </div>-->
+
+<!--        </div>-->
+    </div>
+
+</div>
+
+
+
+<div id="pagination" class="ui  center aligned container">
+    <div class="ui pagination menu borderless">
+        <a class="active item">
+            <i class="icon angle left"></i>
+        </a>
+        <div class="disabled item">
+            1
+        </div>
+        <a class="item">
+            2
+        </a>
+        <a class="item">
+            3
+        </a>
+        <a class="item">
+            <i class="icon angle right"></i>
+        </a>
+    </div>
+</div>
+<div th:replace="_fragments :: footer"></div>
+</body>
+<div th:replace="_fragments :: script"></div>
+<script>
+    $(".tag").hover(function () {
+        $(this).addClass("animate__animated animate__heartBeat");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__heartBeat");
+    });
+    $("a").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+    //为了配合semantic ui 只能这样适应手机 无法！important
+    $(document).ready(function(){
+       if (screen.width<768) {
+           $("#responsive_screen").removeAttr("style");
+           $("#responsive_screen2").removeAttr("style");
+           $("#responsive_screen3").removeAttr("style");
+       }
+    });
+</script>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logho.dao.admin.CategoryMapper">
+    <select id="getCategoryList" resultType="Category">
+        select category_id, category_name
+        from category
+        order by category_id
+    </select>
+
+
+    <insert id="addCategory">
+        insert into category
+        values (default, #{categoryName})
+    </insert>
+
+    <update id="updateCategoryById">
+        update category
+        set category_name = #{categoryName}
+        where category_id = #{id}
+    </update>
+
+    <delete id="deleteCategoryById">
+        delete
+        from category
+        where category_id = #{categoryId}
+    </delete>
+
+    <select id="getCategoryByBlogId" resultType="category">
+        select bc.category_id, c.category_name,blog_id
+        from blog_category bc
+        left join category c on c.category_id = bc.category_id
+        <where>
+            blog_id = #{blogId}
+            <!--            <if test="categoryId != null">-->
+            <!--                and bc.category_id = #{categoryId}-->
+            <!--            </if>-->
+        </where>
+    </select>
+
+    <select id="getBlogNumGroupByCategory" resultType="BlogCategoryNum">
+        select c.category_id as category_id, c.category_name as category_name, count(blog_id) as blog_num
+        from category c
+                 left join blog_category bc on c.category_id = bc.category_id
+        group by c.category_id;
+    </select>
+
+    <select id="getBlogByCategory" resultType="BlogVO">
+        select b.blog_id,
+               blog_title,
+               blog_content,
+               blog_show_img,
+               blog_description,
+               blog_create_time,
+               blog_update_time,
+               username    as blog_author,
+               user_avatar as blog_avatar
+        from blog b
+                 inner join blog_category bc on (bc.category_id = #{categoryId} and b.blog_id = bc.blog_id)
+                 left join user u on b.user_id = u.user_id
+        order by blog_update_time desc, blog_create_time desc
+        limit #{startPage},5;
+    </select>
+
+    <delete id="deleteAllCategoryByBlogId">
+        delete from blog_category where blog_id = #{blogId} ;
+    </delete>
+
+
+</mapper>

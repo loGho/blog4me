@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logho.dao.BlogMapper">
+
+    <select id="getBlogByTitle" resultType="BlogForSearch">
+        select blog_id, blog_title, blog_description
+        from blog
+        where blog_title like concat('%', #{blogTitle}, '%')
+    </select>
+</mapper>

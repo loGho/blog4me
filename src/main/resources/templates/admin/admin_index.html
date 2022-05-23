@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+  <title>博客管理</title>
+</head>
+
+<body>
+<div th:replace="admin/admin_fragments :: admin-header"></div>
+<br><br><br><br><br>
+<div  class="m-container-small m-padded-tb-big">
+  <div class="ui container">
+    <div class="ui success large  message">
+      <h3>Hi,</h3>
+      <div class="ui header"><span class="animate__animated animate__heartBeat" style="color: violet" th:text="${session.logined_user.getNickname()}"></span>欢迎登录！</div>
+    </div>
+
+  </div>
+</div>
+
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div th:replace="admin/admin_fragments :: admin-footer"></div>
+<div th:replace="admin/admin_fragments :: admin-script"></div>
+<script>
+  $(".tag").hover(function () {
+    $(this).addClass("animate__animated animate__heartBeat");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__heartBeat");
+  });
+  $("a").hover(function () {
+    $(this).addClass("animate__animated animate__headShake");
+  }).mouseleave(function () {
+    $(this).removeClass("animate__animated animate__headShake");
+  });
+</script>
+
+</body>
+</html>

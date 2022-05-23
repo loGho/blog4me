@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog4_me?serverTimezone=Asia/Shanghai
+    username: root
+    password: gwylol11
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 47.108.217.249
+    port: 6379
+    password: gwylol11waipo2523
+logging:
+  level:
+    root: warn
+    com.logho: warn
+  file:
+    name: log-pro/blog-pro.log
+
+
+server:
+  port: 8081
+
+mybatis:
+  type-aliases-package: com.logho.pojo,com.logho.vo
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

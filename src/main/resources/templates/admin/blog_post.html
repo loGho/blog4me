@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+    <title>博客详情</title>
+</head>
+<link rel="stylesheet" href="../../static/lib/editormd/css/editormd.css" th:href="@{/lib/editormd/css/editormd.css}">
+
+<body>
+<div th:replace="admin/admin_fragments :: admin-header"></div>
+
+
+
+<!--md editor-->
+<div  class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <form id="blog-form" action="#"  th:action="${blog==null}?@{/admin/blog/save}:@{/admin/blog/save/{id}(id=${blog.getBlogId()})}" method="post" class="ui form">
+            <input type="hidden" name="id" >
+            <div class="required field">
+                <div class="ui left labeled input" style="margin-top: 50px!important;">
+                    <div class="ui selection compact blue basic dropdown label">
+                        <input type="hidden" name="blogType" th:value="${blog.getBlogType()}?'原创':'转载'" >
+                        <i class="dropdown icon"></i>
+                        <div class="text">原创</div>
+                        <div class="menu">
+                            <div class="item" data-value="1">原创</div>
+                            <div class="item" data-value="0">转载</div>
+                        </div>
+                    </div>
+                    <input type="text" name="blogTitle" th:value="${blog.getBlogTitle()}" placeholder="给博客输入一个标题吧～" >
+                </div>
+            </div>
+
+
+
+
+
+            <div class=" field">
+                <div class="ui left labeled action blue input" style="margin-top: 20px!important;">
+                    <label class="ui compact blue basic label">标签</label>
+                    <div class="ui fluid selection multiple search  dropdown">
+                        <input type="hidden" name="categoryIds"  th:value="${blog.getCategoryIds()}">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">标签</div>
+                        <div class="menu">
+                            <div th:each="category : ${categoryList}" class="item" data-value="1" th:data-value="${category.getCategoryId()}" th:text="${category.getCategoryName()}">logh_for_test</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <input type="hidden" id="publishstatus" name="blogPublishStatus" value="1">
+            </div>
+            <div class="required field">
+                <div class="ui left labeled blue  input" style="margin-top: 20px!important;margin-bottom: 18px">
+                    <label class="ui blue basic label">封面图</label>
+                    <input type="text" name="blogShowImg" th:value="${blog.getBlogShowImg()}" placeholder="封面图引用地址">
+                </div>
+            </div>
+
+            <div class="required field">
+                <div id="md-content" style="z-index: 1 !important;">
+                    <textarea name="blogContent" th:text="${blog.getBlogContent()}" placeholder="记录你的想法" maxlength="300">content</textarea>
+                </div>
+            </div>
+
+            <div class="required field">
+                <div id="md-description" style="z-index: 1 !important;">
+                    <textarea name="blogDescription"  th:text="${blog.getBlogDescription()}" placeholder="添加一个blog的描述 💐💐💐" maxlength="300">contentid</textarea>
+                </div>
+            </div>
+
+            <div class="inline fields">
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="shareStatement" name="shareStatement" class="hidden">
+                        <label for="shareStatement">转载声明</label>
+                    </div>
+                </div>
+
+
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" th:value="${blog.getEnableComments()}" id="commentable" name="enableComments" class="hidden">
+                        <label for="commentable">评论</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui error message ">
+                <i class="icon close"></i>
+            </div>
+            <div class="ui m-right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+                <button type="button" id="save-btn" class="ui orange  button">保存</button>
+                <button type="button" id="publish-btn" class="ui teal button">发布</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div th:replace="admin/admin_fragments :: admin-footer"></div>
+<div th:replace="admin/admin_fragments :: admin-script"></div>
+<script>
+    $(".tag").hover(function () {
+        $(this).addClass("animate__animated animate__heartBeat");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__heartBeat");
+    });
+    $("a").hover(function () {
+        $(this).addClass("animate__animated animate__headShake");
+    }).mouseleave(function () {
+        $(this).removeClass("animate__animated animate__headShake");
+    });
+</script>
+<script src="../../static/lib/editormd/editormd.js" th:src="@{/lib/editormd/editormd.js}"></script>
+<script>
+
+    //初始化Markdown编辑器
+    var contentEditor;
+    $(function() {
+        contentEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+//        path    : "../static/lib/editormd/lib/"
+            path    : "/lib/editormd/lib/",
+            placeholder : "输入你的想法 💡💡💡"
+        });
+    });
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'click'
+    });
+
+    $('#save-btn').click(function () {     //点击保存，修改发布状态为false
+        $('[name="blogPublishStatus"]').val(false);
+        $('#blog-form').submit();
+    });
+
+
+    $('#publish-btn').click(function () {   //点击发布，修改发布状态为true
+        $('[name="blogPublishStatus"]').val(true);
+        $('#blog-form').submit();
+    });
+    $('.message .close')
+        .on('click', function() {
+            $(this)
+                .closest('.message')
+                .transition('fade')
+            ;
+        });
+
+
+
+    $('.ui.form').form({    //表单元素非空验证
+        fields : {
+            title : {
+                identifier: 'blogTitle',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入博客标题'
+                }]
+            },
+            content : {
+                identifier: 'blogContent',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入博客内容'
+                }]
+            },
+            firstPicture : {
+                identifier: 'blogShowImg',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入博客封面图地址'
+                }]
+            },
+            description : {
+                identifier: 'blogDescription',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入博客描述'
+                }]
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
